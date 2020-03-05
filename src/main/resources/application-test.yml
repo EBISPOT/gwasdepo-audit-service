@@ -1,0 +1,11 @@
+spring:
+  data:
+    mongodb:
+      uri: snoopy.ebi.ac.uk:27017
+
+gwas-audit-service:
+  db: gwas-deposition-test
+
+quartz:
+  scheduler:
+    dbName: gwas-deposition-test

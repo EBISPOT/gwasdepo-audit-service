@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: mongo-0.mongo.default.svc.cluster.local,mongo-1.mongo.default.svc.cluster.local,mongo-2.mongo.default.svc.cluster.local:27017
+
+gwas-audit-service:
+  db: deposition-backend-sandbox
+
+quartz:
+  scheduler:
+    dbName: deposition-backend-sandbox

@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: localhost:27017
+
+gwas-audit-service:
+  db: gwas-deposition-dev
+
+quartz:
+  scheduler:
+    dbName: gwas-deposition-dev

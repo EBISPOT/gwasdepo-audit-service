@@ -1,0 +1,25 @@
+server:
+  name: deposition-audit-service
+  port: 80
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+
+gwas-audit-service:
+  auth:
+    enabled: false
+
+quartz:
+  scheduler:
+    active: false
+
+spring:
+  profiles:
+    active: dev
+
+comms:
+  messaging:
+    enabled: false
