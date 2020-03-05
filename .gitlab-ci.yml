@@ -26,7 +26,7 @@ maven-build:
     paths:
       - target/*.jar
 
-build-ingest-container:
+build-audit-container:
   stage: docker
   script:
   - echo "$DOCKER_HUB_PASSWORD" > dhpw.txt
@@ -34,7 +34,7 @@ build-ingest-container:
   - docker build --cache-from $AUDIT_REGISTRY_IMAGE:latest -t $AUDIT_REGISTRY_IMAGE:$CI_COMMIT_SHA .
   - docker push $AUDIT_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
-build-ingest-release:
+build-audit-release:
   variables:
     GIT_STRATEGY: none
   stage: docker-release
@@ -49,7 +49,7 @@ build-ingest-release:
   only:
   - tags
 
-deploy-ingest-sandbox:
+deploy-audit-sandbox:
   image: dtzar/helm-kubectl:2.13.1
   stage: deploy-sandbox
   script:
