@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import uk.ac.ebi.spot.gwas.deposition.audit.AuditEntryDto;
 import uk.ac.ebi.spot.gwas.deposition.audit.constants.AuditServiceConstants;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.AuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.rest.dto.AuditEntryDtoAssembler;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.AuditEntriesService;
 import uk.ac.ebi.spot.gwas.deposition.constants.GeneralCommon;
-import uk.ac.ebi.spot.gwas.deposition.dto.AuditEntryDto;
 
 @RestController
 @RequestMapping(value = GeneralCommon.API_V1 + AuditServiceConstants.API_AUDIT_ENTRIES)
