@@ -66,6 +66,7 @@ public class AuditEntriesControllerTest extends IntegrationTest {
                 RandomStringUtils.randomAlphanumeric(10),
                 RandomStringUtils.randomAlphanumeric(10),
                 RandomStringUtils.randomAlphanumeric(10),
+                RandomStringUtils.randomAlphanumeric(10),
                 new HashMap<>(),
                 DateTime.now());
 

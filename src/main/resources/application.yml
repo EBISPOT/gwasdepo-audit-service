@@ -14,7 +14,13 @@ gwas-audit-service:
 
 quartz:
   scheduler:
-    active: false
+    active: true
+    instanceName: auditSchedulerJobSchedulerCluster
+    environment-config: quartz/environment-config.yaml
+    mongodb-pool-size: 10
+  jobs:
+    daily-stats:
+      schedule: 0 0 8 * * ?
 
 spring:
   profiles:

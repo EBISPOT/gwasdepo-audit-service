@@ -11,6 +11,7 @@ public class AuditEntryDtoAssembler {
                 auditEntry.getAction(),
                 auditEntry.getOutcome(),
                 auditEntry.getEntityId(),
+                auditEntry.getEntityType(),
                 auditEntry.getContext(),
                 auditEntry.getMetadata(),
                 auditEntry.getTimestamp());
@@ -21,6 +22,7 @@ public class AuditEntryDtoAssembler {
                 auditEntryDto.getAction(),
                 auditEntryDto.getOutcome(),
                 auditEntryDto.getEntityId(),
+                auditEntryDto.getEntityType(),
                 auditEntryDto.getContext(),
                 auditEntryDto.getMetadata(),
                 auditEntryDto.getTimestamp());

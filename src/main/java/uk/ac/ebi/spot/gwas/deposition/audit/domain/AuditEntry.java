@@ -25,6 +25,8 @@ public class AuditEntry {
 
     private String entityId;
 
+    private String entityType;
+
     private DateTime timestamp;
 
     private String context;
@@ -32,12 +34,13 @@ public class AuditEntry {
     private Map<String, String> metadata;
 
     public AuditEntry(String userId, String action, String outcome,
-                      String entityId, String context,
+                      String entityId, String entityType, String context,
                       Map<String, String> metadata, DateTime timestamp) {
         this.userId = userId;
         this.action = action;
         this.outcome = outcome;
         this.entityId = entityId;
+        this.entityType = entityType;
         this.timestamp = timestamp;
         this.metadata = metadata;
         this.context = context;
@@ -109,5 +112,13 @@ public class AuditEntry {
 
     public void setMetadata(Map<String, String> metadata) {
         this.metadata = metadata;
+    }
+
+    public String getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
     }
 }
