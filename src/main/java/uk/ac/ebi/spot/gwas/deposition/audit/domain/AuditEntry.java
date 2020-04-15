@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Map;
 
 @Document(collection = "auditEntries")
-@CompoundIndexes({@CompoundIndex(name = "archived_user", def = "{'created_userId': 1, 'archived': 1}"),
-        @CompoundIndex(name = "id_archived", def = "{'id': 1, 'archived': 1}"),
-        @CompoundIndex(name = "id_archived_user", def = "{'id': 1, 'archived': 1, 'created_userId': 1}")})
+@CompoundIndexes({@CompoundIndex(name = "context_action", def = "{'context': 1, 'action': 1}"),
+        @CompoundIndex(name = "eId_time", def = "{'entityId': 1, 'timestamp': 1}"),
+        @CompoundIndex(name = "context_time", def = "{'context': 1, 'timestamp': 1}")})
 public class AuditEntry {
 
     @Id

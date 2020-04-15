@@ -1,9 +1,9 @@
 package uk.ac.ebi.spot.gwas.deposition.audit.service;
 
-import java.util.Map;
+import uk.ac.ebi.spot.gwas.deposition.audit.domain.DigestEntry;
 
 public interface AuditEmailService {
 
-    void sendStatsEmail(Map<String, String> metadata);
+    void sendStatsEmail(DigestEntry digestEntry);
 
 }

@@ -12,6 +12,13 @@ gwas-audit-service:
   auth:
     enabled: false
 
+audit-emails:
+  active: false
+  digest:
+    subject: New submissions report
+    content: emails/digest.email
+    to: gwas-curator@ebi.ac.uk, gwas-dev-logs@ebi.ac.uk
+
 quartz:
   scheduler:
     active: true
