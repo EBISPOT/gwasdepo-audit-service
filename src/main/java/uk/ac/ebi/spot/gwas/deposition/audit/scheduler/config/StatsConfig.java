@@ -3,7 +3,6 @@ package uk.ac.ebi.spot.gwas.deposition.audit.scheduler.config;
 import org.quartz.*;
 import org.quartz.impl.JobDetailImpl;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import uk.ac.ebi.spot.gwas.deposition.audit.scheduler.jobs.StatsJob;
 import uk.ac.ebi.spot.gwas.deposition.scheduler.config.AbstractQuartzConfig;
@@ -11,7 +10,6 @@ import uk.ac.ebi.spot.gwas.deposition.scheduler.config.AbstractQuartzConfig;
 import java.util.Date;
 
 @Configuration
-@ConditionalOnProperty(name = "gwas-deposition.stats-task.enabled", havingValue = "true")
 public class StatsConfig extends AbstractQuartzConfig {
 
     private static final String JK_AUDIT_STATS = "JK_AUDIT_STATS";

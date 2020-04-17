@@ -69,9 +69,10 @@ public class DigestProcessor {
                 }
                 this.submissions.add(new EmailSubmissionObject(
                         contextId,
-                        AuditMetadata.PROVENANCE_TYPE.name(),
+                        auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()),
                         authorName,
-                        userOptional.get().getName(), null));
+                        userOptional.get().getName(),
+                        null));
                 this.noSubmissions++;
             }
         }
@@ -89,7 +90,7 @@ public class DigestProcessor {
                 if (auditEntry.getOutcome().equalsIgnoreCase(AuditOperationOutcome.SUCCESS.name())) {
                     this.validSubmissions.add(new EmailSubmissionObject(
                             contextId,
-                            AuditMetadata.PROVENANCE_TYPE.name(),
+                            auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()),
                             authorName,
                             userOptional.get().getName(), null));
                     this.noValidSubmissions++;
@@ -97,7 +98,7 @@ public class DigestProcessor {
                     String error = auditEntry.getMetadata().get(AuditMetadata.ERROR.name());
                     this.failedSubmissions.add(new EmailSubmissionObject(
                             contextId,
-                            AuditMetadata.PROVENANCE_TYPE.name(),
+                            auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()),
                             authorName,
                             userOptional.get().getName(),
                             error != null ? error : "UNKNOWN"));

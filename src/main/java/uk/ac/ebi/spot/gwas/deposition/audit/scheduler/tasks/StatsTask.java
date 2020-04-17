@@ -43,7 +43,11 @@ public class StatsTask {
             DigestEntry digestEntry = new DigestProcessor(auditEntryList, userRepository).getDigestEntry();
             digestEntry = digestEntryRepository.insert(digestEntry);
             log.info("Digest entry created: {}", digestEntry.getId());
-            auditEmailService.sendStatsEmail(digestEntry);
+
+            if (digestEntry.getNoFailedSubmissions() != 0 || digestEntry.getNoSubmissions() != 0 ||
+                    digestEntry.getNoValidSubmissions() != 0) {
+                auditEmailService.sendStatsEmail(digestEntry);
+            }
         }
     }
 }
