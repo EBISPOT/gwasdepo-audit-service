@@ -19,6 +19,11 @@ spring:
           starttls:
             enable: true
 
+audit-emails:
+  active: true
+  digest:
+    to: tudor.groza@gmail.com
+
 gwas-audit-service:
   db: deposition-backend-sandbox
 
