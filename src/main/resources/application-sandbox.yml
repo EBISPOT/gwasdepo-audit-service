@@ -24,6 +24,9 @@ audit-emails:
   digest:
     to: tudor.groza@gmail.com
 
+email:
+  enabled: true
+
 gwas-audit-service:
   db: deposition-backend-sandbox
 
