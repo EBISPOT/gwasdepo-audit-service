@@ -29,6 +29,13 @@ quartz:
     daily-stats:
       schedule: 0 0 8 * * ?
 
+email:
+  enabled: false
+  config:
+    from-address: no-reply@ebi.ac.uk
+    from-name: GWAS Curation
+    retries: 3
+
 spring:
   profiles:
     active: dev
