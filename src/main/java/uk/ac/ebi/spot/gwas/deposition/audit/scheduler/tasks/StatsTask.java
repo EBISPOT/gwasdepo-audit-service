@@ -46,6 +46,7 @@ public class StatsTask {
 
             if (digestEntry.getNoFailedSubmissions() != 0 || digestEntry.getNoSubmissions() != 0 ||
                     digestEntry.getNoValidSubmissions() != 0) {
+                log.info("Sending digest email ...");
                 auditEmailService.sendStatsEmail(digestEntry);
             }
         }
