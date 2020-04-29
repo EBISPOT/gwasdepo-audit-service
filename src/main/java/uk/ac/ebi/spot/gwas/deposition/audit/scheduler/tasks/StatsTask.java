@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.AuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.DigestEntry;
-import uk.ac.ebi.spot.gwas.deposition.audit.repository.AuditEntryRepository;
-import uk.ac.ebi.spot.gwas.deposition.audit.repository.DigestEntryRepository;
-import uk.ac.ebi.spot.gwas.deposition.audit.repository.UserRepository;
+import uk.ac.ebi.spot.gwas.deposition.audit.repository.*;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.AuditEmailService;
 import uk.ac.ebi.spot.gwas.deposition.audit.util.DigestProcessor;
 
@@ -32,6 +30,15 @@ public class StatsTask {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SubmissionRepository submissionRepository;
+
+    @Autowired
+    private PublicationRepository publicationRepository;
+
+    @Autowired
+    private BodyOfWorkRepository bodyOfWorkRepository;
+
     public void buildStats() {
         log.info("Generating daily submissions digest ...");
         DateTime yesterday = DateTime.now().minusDays(1);
@@ -40,7 +47,11 @@ public class StatsTask {
         log.info("Found {} entries.", auditEntryList.size());
 
         if (!auditEntryList.isEmpty()) {
-            DigestEntry digestEntry = new DigestProcessor(auditEntryList, userRepository).getDigestEntry();
+            DigestEntry digestEntry = new DigestProcessor(auditEntryList,
+                    userRepository,
+                    submissionRepository,
+                    publicationRepository,
+                    bodyOfWorkRepository).getDigestEntry();
             digestEntry = digestEntryRepository.insert(digestEntry);
             log.info("Digest entry created: {}", digestEntry.getId());
 

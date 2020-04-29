@@ -8,16 +8,23 @@ public class EmailSubmissionObject {
 
     private String firstAuthor;
 
+    private String title;
+
     private String userName;
 
     private String error;
 
-    public EmailSubmissionObject(String contextId, String provenanceType, String firstAuthor, String userName, String error) {
+    public EmailSubmissionObject(String contextId, String title, String provenanceType, String firstAuthor, String userName, String error) {
         this.provenanceType = provenanceType;
+        this.title = title;
         this.contextId = contextId;
         this.firstAuthor = firstAuthor;
         this.userName = userName;
         this.error = error;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getContextId() {
