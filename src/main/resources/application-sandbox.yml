@@ -22,7 +22,7 @@ spring:
 audit-emails:
   active: true
   digest:
-    to: tudor.groza@gmail.com
+    to: jstewart@ebi.ac.uk
 
 email:
   enabled: true
