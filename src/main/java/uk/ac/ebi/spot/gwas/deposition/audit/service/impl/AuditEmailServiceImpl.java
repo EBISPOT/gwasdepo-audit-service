@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import uk.ac.ebi.spot.gwas.deposition.audit.config.AuditEmailConfig;
 import uk.ac.ebi.spot.gwas.deposition.audit.constants.MailConstants;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.DigestEntry;
-import uk.ac.ebi.spot.gwas.deposition.audit.scheduler.tasks.StatsTask;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.AuditEmailService;
 import uk.ac.ebi.spot.gwas.deposition.audit.util.StatsEmailBuilder;
 import uk.ac.ebi.spot.gwas.deposition.messaging.email.EmailBuilder;
@@ -34,6 +33,8 @@ public class AuditEmailServiceImpl implements AuditEmailService {
         metadata.put(MailConstants.VALIDATION_SUCCESSFUL, digestEntry.getNoValidSubmissions());
         metadata.put(MailConstants.VALIDATION_FAILED, digestEntry.getNoFailedSubmissions());
         metadata.put(MailConstants.SUBMISSIONS, digestEntry.getSubmissions());
+        metadata.put(MailConstants.VALID_SUBMISSIONS, digestEntry.getValidSubmissions());
+        metadata.put(MailConstants.FAILED_SUBMISSIONS, digestEntry.getFailedSubmissions());
 
         log.info("Email service active: {}", emailService != null);
         log.info("Audit email active: {}", auditEmailConfig.isEmailActive());
