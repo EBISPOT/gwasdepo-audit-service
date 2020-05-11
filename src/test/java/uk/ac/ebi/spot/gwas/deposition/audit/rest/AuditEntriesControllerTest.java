@@ -6,17 +6,21 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import uk.ac.ebi.spot.gwas.deposition.audit.AuditEntryDto;
 import uk.ac.ebi.spot.gwas.deposition.audit.constants.AuditServiceConstants;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.AuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.repository.AuditEntryRepository;
 import uk.ac.ebi.spot.gwas.deposition.constants.GeneralCommon;
-import uk.ac.ebi.spot.gwas.deposition.dto.AuditEntryDto;
+
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ContextConfiguration(classes = {IntegrationTest.MockTaskExecutorConfig.class})
 public class AuditEntriesControllerTest extends IntegrationTest {
 
     @Autowired
@@ -63,6 +67,9 @@ public class AuditEntriesControllerTest extends IntegrationTest {
                 RandomStringUtils.randomAlphanumeric(10),
                 RandomStringUtils.randomAlphanumeric(10),
                 RandomStringUtils.randomAlphanumeric(10),
+                RandomStringUtils.randomAlphanumeric(10),
+                RandomStringUtils.randomAlphanumeric(10),
+                new HashMap<>(),
                 DateTime.now());
 
         mockMvc.perform(post(endpoint)

@@ -3,6 +3,7 @@ package uk.ac.ebi.spot.gwas.deposition.audit.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.AuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.repository.AuditEntryRepository;
@@ -33,6 +34,7 @@ public class AuditEntriesServiceImpl implements AuditEntriesService {
     }
 
     @Override
+    @Async
     public void createEntry(AuditEntry auditEntry) {
         log.info("Creating audit entry: {} | {}", auditEntry.getEntityId(), auditEntry.getUserId());
         auditEntryRepository.insert(auditEntry);

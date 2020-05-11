@@ -12,9 +12,29 @@ gwas-audit-service:
   auth:
     enabled: false
 
+audit-emails:
+  active: false
+  digest:
+    subject: New submissions report
+    content: emails/digest.email
+    to: gwas-curator@ebi.ac.uk, gwas-dev-logs@ebi.ac.uk
+
 quartz:
   scheduler:
-    active: false
+    active: true
+    instanceName: auditSchedulerJobSchedulerCluster
+    environment-config: quartz/environment-config.yaml
+    mongodb-pool-size: 10
+  jobs:
+    daily-stats:
+      schedule: 0 0 8 * * ?
+
+email:
+  enabled: false
+  config:
+    from-address: no-reply@ebi.ac.uk
+    from-name: GWAS Curation
+    retries: 3
 
 spring:
   profiles:

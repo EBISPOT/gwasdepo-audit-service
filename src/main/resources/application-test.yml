@@ -9,3 +9,10 @@ gwas-audit-service:
 quartz:
   scheduler:
     dbName: gwas-deposition-test
+
+audit-emails:
+  active: true
+  digest:
+    subject: New submissions report
+    content: emails/digest.email
+    to: gwas-curator@ebi.ac.uk, gwas-dev-logs@ebi.ac.uk

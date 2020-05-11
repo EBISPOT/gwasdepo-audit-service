@@ -6,10 +6,12 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Map;
+
 @Document(collection = "auditEntries")
-@CompoundIndexes({@CompoundIndex(name = "archived_user", def = "{'created_userId': 1, 'archived': 1}"),
-        @CompoundIndex(name = "id_archived", def = "{'id': 1, 'archived': 1}"),
-        @CompoundIndex(name = "id_archived_user", def = "{'id': 1, 'archived': 1, 'created_userId': 1}")})
+@CompoundIndexes({@CompoundIndex(name = "context_action", def = "{'context': 1, 'action': 1}"),
+        @CompoundIndex(name = "eId_time", def = "{'entityId': 1, 'timestamp': 1}"),
+        @CompoundIndex(name = "context_time", def = "{'context': 1, 'timestamp': 1}")})
 public class AuditEntry {
 
     @Id
@@ -19,17 +21,28 @@ public class AuditEntry {
 
     private String action;
 
+    private String outcome;
+
     private String entityId;
+
+    private String entityType;
 
     private DateTime timestamp;
 
     private String context;
 
-    public AuditEntry(String userId, String action, String entityId, DateTime timestamp, String context) {
+    private Map<String, String> metadata;
+
+    public AuditEntry(String userId, String action, String outcome,
+                      String entityId, String entityType, String context,
+                      Map<String, String> metadata, DateTime timestamp) {
         this.userId = userId;
         this.action = action;
+        this.outcome = outcome;
         this.entityId = entityId;
+        this.entityType = entityType;
         this.timestamp = timestamp;
+        this.metadata = metadata;
         this.context = context;
     }
 
@@ -83,5 +96,29 @@ public class AuditEntry {
 
     public void setContext(String context) {
         this.context = context;
+    }
+
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
+    }
+
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
+    }
+
+    public String getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
     }
 }
