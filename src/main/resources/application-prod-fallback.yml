@@ -19,6 +19,12 @@ spring:
           starttls:
             enable: true
 
+audit-emails:
+  active: true
+
+email:
+  enabled: true
+
 gwas-audit-service:
   db: gwasdepo
 
