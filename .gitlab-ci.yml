@@ -56,7 +56,6 @@ deploy-audit-sandbox:
   - echo "Deploy to sandbox server"
   - mkdir -p /root/.kube
   - echo ${SANBOX_KUBECONF} | base64 -d > /root/.kube/config
-  - helm init
   - helm delete --purge gwas-audit-service || true
   - helm install --name gwas-audit-service --set k8Namespace=gwas,image.repository=$AUDIT_REGISTRY_IMAGE,image.tag=$CI_COMMIT_SHA,image.env.secretsName=sandbox-secrets,image.env.secretsKey=db-backend ./k8chart/ --wait
   environment:
@@ -71,7 +70,6 @@ deploy-fallback:
   - echo "Deploy to Production fallback server"
   - mkdir -p /root/.kube
   - echo ${PFALLBACK_KUBECONFIG} | base64 -d > /root/.kube/config
-  - helm init
   - helm delete --purge gwas-audit-service || true
   - helm install --name gwas-audit-service --set k8Namespace=gwas,image.env.envName=prod,image.repository=$AUDIT_REGISTRY_IMAGE,image.tag=$CI_COMMIT_SHA,image.env.dbUser=gwasdepo,image.env.secretsName=prod-secrets,image.env.secretsKey=db-backend ./k8chart/ --wait
   environment:
@@ -86,7 +84,6 @@ deploy-live:
   - echo "Deploy to Production server"
   - mkdir -p /root/.kube
   - echo ${PLIVE_KUBECONFIG} | base64 -d > /root/.kube/config
-  - helm init
   - helm delete --purge gwas-audit-service || true
   - helm install --name gwas-audit-service --set k8Namespace=gwas,image.env.envName=prod,image.repository=$AUDIT_REGISTRY_IMAGE,image.tag=$CI_COMMIT_SHA,image.env.dbUser=gwasdepo,image.env.secretsName=prod-secrets,image.env.secretsKey=db-backend ./k8chart/ --wait
   environment:
