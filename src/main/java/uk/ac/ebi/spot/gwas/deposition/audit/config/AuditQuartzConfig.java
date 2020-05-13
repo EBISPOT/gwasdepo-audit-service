@@ -4,6 +4,7 @@ import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import uk.ac.ebi.spot.gwas.deposition.audit.scheduler.config.StatsConfig;
+import uk.ac.ebi.spot.gwas.deposition.audit.scheduler.config.WeeklyStatsConfig;
 import uk.ac.ebi.spot.gwas.deposition.scheduler.config.QuartzSchedulerJobConfig;
 
 import javax.annotation.PostConstruct;
@@ -17,9 +18,13 @@ public class AuditQuartzConfig {
     @Autowired
     private StatsConfig statsConfig;
 
+    @Autowired
+    private WeeklyStatsConfig weeklyStatsConfig;
+
     @PostConstruct
     private void initialize() throws SchedulerException {
         quartzSchedulerJobConfig.addJob(statsConfig);
+        quartzSchedulerJobConfig.addJob(weeklyStatsConfig);
         quartzSchedulerJobConfig.initializeJobs();
     }
 }
