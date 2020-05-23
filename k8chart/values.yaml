@@ -19,7 +19,7 @@ image:
     secretsName: ""
     secretsKey: ""
   volume:
-    claimName: gwas-depo-logs-new
+    claimName: gwas-depo-logs
 
 imagePullSecrets: []
 nameOverride: ""
