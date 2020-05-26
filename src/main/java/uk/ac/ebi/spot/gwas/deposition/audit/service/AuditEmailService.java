@@ -1,9 +1,10 @@
 package uk.ac.ebi.spot.gwas.deposition.audit.service;
 
+import org.apache.commons.lang3.tuple.Pair;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.DigestEntry;
 
 public interface AuditEmailService {
 
-    void sendStatsEmail(DigestEntry digestEntry);
+    void sendStatsEmail(DigestEntry digestEntry, Pair<String, String> emailConfig);
 
 }
