@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import uk.ac.ebi.spot.gwas.deposition.audit.config.AuditEmailConfig;
+import uk.ac.ebi.spot.gwas.deposition.audit.constants.MailConstants;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.AuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.DigestEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.repository.*;
@@ -39,6 +41,9 @@ public class WeeklyStatsTask {
     @Autowired
     private BodyOfWorkRepository bodyOfWorkRepository;
 
+    @Autowired
+    private AuditEmailConfig auditEmailConfig;
+
     public void buildStats() {
         DateTime now = DateTime.now();
         if (now.getDayOfWeek() != 7) {
@@ -60,6 +65,6 @@ public class WeeklyStatsTask {
         log.info("Digest entry created: {}", digestEntry.getId());
 
         log.info("Sending digest email ...");
-        auditEmailService.sendStatsEmail(digestEntry);
+        auditEmailService.sendStatsEmail(digestEntry, auditEmailConfig.emailConfig(MailConstants.DIGEST_WEEKLY));
     }
 }

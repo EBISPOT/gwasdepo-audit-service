@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import uk.ac.ebi.spot.gwas.deposition.audit.config.AuditEmailConfig;
+import uk.ac.ebi.spot.gwas.deposition.audit.constants.MailConstants;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.AuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.DigestEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.repository.*;
@@ -39,6 +41,9 @@ public class StatsTask {
     @Autowired
     private BodyOfWorkRepository bodyOfWorkRepository;
 
+    @Autowired
+    private AuditEmailConfig auditEmailConfig;
+
     public void buildStats() {
         log.info("Generating daily submissions digest ...");
         DateTime yesterday = DateTime.now().minusDays(1);
@@ -58,7 +63,7 @@ public class StatsTask {
             if (digestEntry.getNoFailedSubmissions() != 0 || digestEntry.getNoSubmissions() != 0 ||
                     digestEntry.getNoValidSubmissions() != 0) {
                 log.info("Sending digest email ...");
-                auditEmailService.sendStatsEmail(digestEntry);
+                auditEmailService.sendStatsEmail(digestEntry, auditEmailConfig.emailConfig(MailConstants.DIGEST_DAILY));
             }
         }
     }

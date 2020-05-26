@@ -1,5 +1,6 @@
 package uk.ac.ebi.spot.gwas.deposition.audit.service.impl;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class AuditEmailServiceImpl implements AuditEmailService {
     private AuditEmailConfig auditEmailConfig;
 
     @Override
-    public void sendStatsEmail(DigestEntry digestEntry) {
+    public void sendStatsEmail(DigestEntry digestEntry, Pair<String, String> emailConfig) {
         Map<String, Object> metadata = new HashMap<>();
         metadata.put(MailConstants.SUBMISSIONS_CREATED, digestEntry.getNoSubmissions());
         metadata.put(MailConstants.VALIDATION_SUCCESSFUL, digestEntry.getNoValidSubmissions());
@@ -40,10 +41,10 @@ public class AuditEmailServiceImpl implements AuditEmailService {
         log.info("Audit email active: {}", auditEmailConfig.isEmailActive());
 
         if (emailService != null && auditEmailConfig.isEmailActive()) {
-            EmailBuilder successBuilder = new StatsEmailBuilder(auditEmailConfig.getDigestEmail());
+            EmailBuilder successBuilder = new StatsEmailBuilder(emailConfig.getRight());
 
             for (String to : auditEmailConfig.getDigestTo()) {
-                emailService.sendMessage(to, auditEmailConfig.getDigestSubject(), successBuilder.getEmailContent(metadata));
+                emailService.sendMessage(to, emailConfig.getLeft(), successBuilder.getEmailContent(metadata));
             }
         }
     }

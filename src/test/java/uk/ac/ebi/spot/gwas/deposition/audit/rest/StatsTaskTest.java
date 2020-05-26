@@ -105,7 +105,7 @@ public class StatsTaskTest extends IntegrationTest {
         metadata.put(MailConstants.VALID_SUBMISSIONS, digestEntry.getValidSubmissions());
         metadata.put(MailConstants.FAILED_SUBMISSIONS, digestEntry.getFailedSubmissions());
 
-        EmailBuilder successBuilder = new StatsEmailBuilder(auditEmailConfig.getDigestEmail());
+        EmailBuilder successBuilder = new StatsEmailBuilder(auditEmailConfig.getDailyDigestEmail());
         String content = successBuilder.getEmailContent(metadata);
         assertNotNull(content);
     }

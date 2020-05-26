@@ -15,9 +15,13 @@ gwas-audit-service:
 audit-emails:
   active: false
   digest:
-    subject: New submissions report
-    content: emails/digest.email
     to: gwas-curator@ebi.ac.uk, gwas-dev-logs@ebi.ac.uk
+    daily:
+      subject: New submissions report
+      content: emails/digest.email
+    weekly:
+      subject: Weekly submissions report
+      content: emails/weekly_digest.email
 
 quartz:
   scheduler:
