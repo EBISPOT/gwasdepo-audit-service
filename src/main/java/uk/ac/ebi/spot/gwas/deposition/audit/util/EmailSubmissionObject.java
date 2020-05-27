@@ -12,15 +12,22 @@ public class EmailSubmissionObject {
 
     private String userName;
 
+    private String embargo;
+
     private String error;
 
-    public EmailSubmissionObject(String contextId, String title, String provenanceType, String firstAuthor, String userName, String error) {
+    public EmailSubmissionObject(String contextId, String title, String provenanceType, String firstAuthor, String userName, String embargo, String error) {
         this.provenanceType = provenanceType;
         this.title = title;
         this.contextId = contextId;
         this.firstAuthor = firstAuthor;
         this.userName = userName;
+        this.embargo = embargo;
         this.error = error;
+    }
+
+    public String getEmbargo() {
+        return embargo;
     }
 
     public String getTitle() {

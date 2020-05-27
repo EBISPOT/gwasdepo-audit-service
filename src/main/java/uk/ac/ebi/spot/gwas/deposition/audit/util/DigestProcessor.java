@@ -11,6 +11,7 @@ import uk.ac.ebi.spot.gwas.deposition.audit.repository.BodyOfWorkRepository;
 import uk.ac.ebi.spot.gwas.deposition.audit.repository.PublicationRepository;
 import uk.ac.ebi.spot.gwas.deposition.audit.repository.SubmissionRepository;
 import uk.ac.ebi.spot.gwas.deposition.audit.repository.UserRepository;
+import uk.ac.ebi.spot.gwas.deposition.constants.EmbargoConstants;
 import uk.ac.ebi.spot.gwas.deposition.constants.SubmissionProvenanceType;
 import uk.ac.ebi.spot.gwas.deposition.domain.BodyOfWork;
 import uk.ac.ebi.spot.gwas.deposition.domain.Publication;
@@ -81,11 +82,15 @@ public class DigestProcessor {
                 auditEntry.getEntityType().equalsIgnoreCase(AuditObjectType.SUBMISSION.name())) {
             Optional<User> userOptional = userRepository.findById(auditEntry.getUserId());
             if (userOptional.isPresent()) {
+                String embargo = EmbargoConstants.NONE;
                 String authorName = userOptional.get().getName();
                 String contextId = auditEntry.getContext();
                 String title = "N/A";
                 if (auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()).equalsIgnoreCase(SubmissionProvenanceType.PUBLICATION.name())) {
                     authorName = auditEntry.getMetadata().get(AuditMetadata.AUTHOR.name());
+                }
+                if (auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()).equalsIgnoreCase(SubmissionProvenanceType.BODY_OF_WORK.name())) {
+                    embargo = auditEntry.getMetadata().get(AuditMetadata.EMBARGO.name());
                 }
                 if (auditEntry.getMetadata().containsKey(AuditMetadata.TITLE.name())) {
                     title = auditEntry.getMetadata().get(AuditMetadata.TITLE.name());
@@ -96,6 +101,7 @@ public class DigestProcessor {
                         auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()),
                         authorName,
                         userOptional.get().getName(),
+                        embargo,
                         null));
                 this.noSubmissions++;
             }
@@ -118,7 +124,7 @@ public class DigestProcessor {
                             title,
                             auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()),
                             authorName,
-                            userOptional.get().getName(), null));
+                            userOptional.get().getName(), null, null));
                     this.noValidSubmissions++;
                 } else {
                     String error = auditEntry.getMetadata().get(AuditMetadata.ERROR.name());
@@ -128,6 +134,7 @@ public class DigestProcessor {
                             auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()),
                             authorName,
                             userOptional.get().getName(),
+                            null,
                             error != null ? error : "UNKNOWN"));
                     this.noFailedSubmissions++;
                 }
