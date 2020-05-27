@@ -360,7 +360,9 @@
                         <div th:if="${SUBMISSIONS_CREATED} != 0">
                             <strong>Submissions created:</strong>
                             <ul th:each="SUBMISSION: ${SUBMISSIONS}">
-                                <li><span th:text="${SUBMISSION.provenanceType}"></span>: <span th:text="${SUBMISSION.contextId}"></span> (<span th:text="${SUBMISSION.title}"></span>; <span th:text="${SUBMISSION.firstAuthor}"></span>) - <span th:text="${SUBMISSION.userName}"></span></li>
+                                <li><span th:text="${SUBMISSION.provenanceType}"></span>: <span th:text="${SUBMISSION.contextId}"></span> (<span th:text="${SUBMISSION.title}"></span>; <span th:text="${SUBMISSION.firstAuthor}"></span>) - <span th:text="${SUBMISSION.userName}"></span>
+                                <br/>
+                                Embargo info: <span th:text="${SUBMISSION.embargo}"></span></li>
                             </ul>
                         </div>
 
