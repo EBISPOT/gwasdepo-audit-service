@@ -34,6 +34,8 @@ quartz:
       schedule: 0 0 8 * * ?
     weekly-stats:
       schedule: 0 0 19 * * ?
+    failed-email:
+      schedule: 0 0 * * * ?
 
 email:
   enabled: false

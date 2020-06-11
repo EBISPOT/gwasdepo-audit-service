@@ -45,7 +45,7 @@ public class AuditEmailServiceImpl implements AuditEmailService {
                 EmailBuilder successBuilder = new StatsEmailBuilder(emailConfig.getRight());
 
                 for (String to : auditEmailConfig.getDigestTo()) {
-                    emailService.sendMessage(to, emailConfig.getLeft(), successBuilder.getEmailContent(metadata));
+                    emailService.sendMessage(to, emailConfig.getLeft(), successBuilder.getEmailContent(metadata), true);
                 }
             } catch (Exception e) {
                 log.error("ERROR: {}", e.getMessage(), e);
