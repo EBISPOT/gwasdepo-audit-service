@@ -41,10 +41,14 @@ public class AuditEmailServiceImpl implements AuditEmailService {
         log.info("Audit email active: {}", auditEmailConfig.isEmailActive());
 
         if (emailService != null && auditEmailConfig.isEmailActive()) {
-            EmailBuilder successBuilder = new StatsEmailBuilder(emailConfig.getRight());
+            try {
+                EmailBuilder successBuilder = new StatsEmailBuilder(emailConfig.getRight());
 
-            for (String to : auditEmailConfig.getDigestTo()) {
-                emailService.sendMessage(to, emailConfig.getLeft(), successBuilder.getEmailContent(metadata));
+                for (String to : auditEmailConfig.getDigestTo()) {
+                    emailService.sendMessage(to, emailConfig.getLeft(), successBuilder.getEmailContent(metadata));
+                }
+            } catch (Exception e) {
+                log.error("ERROR: {}", e.getMessage(), e);
             }
         }
     }
