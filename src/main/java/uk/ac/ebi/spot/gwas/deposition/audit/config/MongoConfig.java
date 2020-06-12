@@ -19,7 +19,8 @@ import java.util.List;
 public class MongoConfig {
 
     @Configuration
-    @EnableMongoRepositories(basePackages = {"uk.ac.ebi.spot.gwas.deposition.audit.repository"})
+    @EnableMongoRepositories(basePackages = {"uk.ac.ebi.spot.gwas.deposition.audit.repository",
+            "uk.ac.ebi.spot.gwas.deposition.repository"})
     @EnableTransactionManagement
     @Profile({"dev", "test"})
     public static class MongoConfigDev extends AbstractMongoConfiguration {
@@ -54,7 +55,8 @@ public class MongoConfig {
     }
 
     @Configuration
-    @EnableMongoRepositories(basePackages = {"uk.ac.ebi.spot.gwas.deposition.audit.repository"})
+    @EnableMongoRepositories(basePackages = {"uk.ac.ebi.spot.gwas.deposition.audit.repository",
+            "uk.ac.ebi.spot.gwas.deposition.repository"})
     @EnableTransactionManagement
     @Profile({"sandbox"})
     public static class MongoConfigSandbox extends AbstractMongoConfiguration {
@@ -83,7 +85,8 @@ public class MongoConfig {
     }
 
     @Configuration
-    @EnableMongoRepositories(basePackages = {"uk.ac.ebi.spot.gwas.deposition.audit.repository"})
+    @EnableMongoRepositories(basePackages = {"uk.ac.ebi.spot.gwas.deposition.audit.repository",
+            "uk.ac.ebi.spot.gwas.deposition.repository"})
     @EnableTransactionManagement
     @Profile({"prod"})
     public static class MongoConfigProd extends AbstractMongoConfiguration {
