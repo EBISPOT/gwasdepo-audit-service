@@ -10,6 +10,7 @@ import uk.ac.ebi.spot.gwas.deposition.audit.constants.MailConstants;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.DigestEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.AuditEmailService;
 import uk.ac.ebi.spot.gwas.deposition.audit.util.StatsEmailBuilder;
+import uk.ac.ebi.spot.gwas.deposition.audit.util.SubmissionDigestCheck;
 import uk.ac.ebi.spot.gwas.deposition.messaging.email.EmailBuilder;
 import uk.ac.ebi.spot.gwas.deposition.messaging.email.EmailService;
 
@@ -33,9 +34,9 @@ public class AuditEmailServiceImpl implements AuditEmailService {
         metadata.put(MailConstants.SUBMISSIONS_CREATED, digestEntry.getNoSubmissions());
         metadata.put(MailConstants.VALIDATION_SUCCESSFUL, digestEntry.getNoValidSubmissions());
         metadata.put(MailConstants.VALIDATION_FAILED, digestEntry.getNoFailedSubmissions());
-        metadata.put(MailConstants.SUBMISSIONS, digestEntry.getSubmissions());
-        metadata.put(MailConstants.VALID_SUBMISSIONS, digestEntry.getValidSubmissions());
-        metadata.put(MailConstants.FAILED_SUBMISSIONS, digestEntry.getFailedSubmissions());
+        metadata.put(MailConstants.SUBMISSIONS, new SubmissionDigestCheck(digestEntry.getSubmissions()).getResult());
+        metadata.put(MailConstants.VALID_SUBMISSIONS, new SubmissionDigestCheck(digestEntry.getValidSubmissions()).getResult());
+        metadata.put(MailConstants.FAILED_SUBMISSIONS, new SubmissionDigestCheck(digestEntry.getFailedSubmissions()).getResult());
 
         log.info("Email service active: {}", emailService != null);
         log.info("Audit email active: {}", auditEmailConfig.isEmailActive());
