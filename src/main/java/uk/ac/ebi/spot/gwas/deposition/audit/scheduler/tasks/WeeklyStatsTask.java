@@ -60,7 +60,8 @@ public class WeeklyStatsTask {
                 userRepository,
                 submissionRepository,
                 publicationRepository,
-                bodyOfWorkRepository).getDigestEntry();
+                bodyOfWorkRepository,
+                true).getDigestEntry();
         digestEntry = digestEntryRepository.insert(digestEntry);
         log.info("Digest entry created: {}", digestEntry.getId());
 

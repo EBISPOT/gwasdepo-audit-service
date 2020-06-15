@@ -90,12 +90,12 @@ public class StatsTaskTest extends IntegrationTest {
         assertEquals(user.getName(), digestEntry.getValidSubmissions().get(0).getUserName());
         assertEquals(pmidId, digestEntry.getValidSubmissions().get(0).getContextId());
         assertNotNull(digestEntry.getValidSubmissions().get(0).getFirstAuthor());
-        assertEquals(SubmissionProvenanceType.PUBLICATION.name(), digestEntry.getValidSubmissions().get(0).getProvenanceType());
+        assertEquals("Publication", digestEntry.getValidSubmissions().get(0).getProvenanceType());
 
         assertEquals(user.getName(), digestEntry.getFailedSubmissions().get(0).getUserName());
         assertEquals(bowId, digestEntry.getFailedSubmissions().get(0).getContextId());
         assertEquals(error, digestEntry.getFailedSubmissions().get(0).getError());
-        assertEquals(SubmissionProvenanceType.BODY_OF_WORK.name(), digestEntry.getFailedSubmissions().get(0).getProvenanceType());
+        assertEquals("Body of Work", digestEntry.getFailedSubmissions().get(0).getProvenanceType());
 
         Map<String, Object> metadata = new HashMap<>();
         metadata.put(MailConstants.SUBMISSIONS_CREATED, digestEntry.getNoSubmissions());
