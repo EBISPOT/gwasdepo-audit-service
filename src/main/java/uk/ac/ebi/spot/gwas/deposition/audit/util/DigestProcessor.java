@@ -18,9 +18,7 @@ import uk.ac.ebi.spot.gwas.deposition.domain.Publication;
 import uk.ac.ebi.spot.gwas.deposition.domain.Submission;
 import uk.ac.ebi.spot.gwas.deposition.domain.User;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class DigestProcessor {
 
@@ -46,18 +44,28 @@ public class DigestProcessor {
 
     private List<EmailSubmissionObject> failedSubmissions;
 
+    private Map<String, String> validSubmissionsMap;
+
+    private Map<String, String> failedSubmissionsMap;
+
+    private boolean consolidate;
+
     public DigestProcessor(List<AuditEntry> auditEntryList,
                            UserRepository userRepository,
                            SubmissionRepository submissionRepository,
                            PublicationRepository publicationRepository,
-                           BodyOfWorkRepository bodyOfWorkRepository) {
+                           BodyOfWorkRepository bodyOfWorkRepository,
+                           boolean consolidate) {
         this.userRepository = userRepository;
         this.submissionRepository = submissionRepository;
         this.publicationRepository = publicationRepository;
         this.bodyOfWorkRepository = bodyOfWorkRepository;
+        this.consolidate = consolidate;
         this.submissions = new ArrayList<>();
         this.validSubmissions = new ArrayList<>();
         this.failedSubmissions = new ArrayList<>();
+        this.validSubmissionsMap = new HashMap<>();
+        this.failedSubmissionsMap = new HashMap<>();
         this.noSubmissions = 0;
         this.noValidSubmissions = 0;
         this.noFailedSubmissions = 0;
@@ -98,7 +106,7 @@ public class DigestProcessor {
                 this.submissions.add(new EmailSubmissionObject(
                         contextId,
                         title,
-                        auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()),
+                        DigestUtil.labelForProvenanceType(auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name())),
                         authorName,
                         userOptional.get().getName(),
                         embargo,
@@ -118,25 +126,33 @@ public class DigestProcessor {
                     authorName = auditEntry.getMetadata().get(AuditMetadata.AUTHOR.name());
                 }
 
+                if (consolidate) {
+                    if (validSubmissionsMap.containsKey(contextId)) {
+                        return;
+                    }
+                }
+
                 if (auditEntry.getOutcome().equalsIgnoreCase(AuditOperationOutcome.SUCCESS.name())) {
                     this.validSubmissions.add(new EmailSubmissionObject(
                             contextId,
                             title,
-                            auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()),
+                            DigestUtil.labelForProvenanceType(auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name())),
                             authorName,
                             userOptional.get().getName(), null, null));
                     this.noValidSubmissions++;
+                    this.validSubmissionsMap.put(contextId, "");
                 } else {
                     String error = auditEntry.getMetadata().get(AuditMetadata.ERROR.name());
                     this.failedSubmissions.add(new EmailSubmissionObject(
                             contextId,
                             title,
-                            auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()),
+                            DigestUtil.labelForProvenanceType(auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name())),
                             authorName,
                             userOptional.get().getName(),
                             null,
                             error != null ? error : "UNKNOWN"));
                     this.noFailedSubmissions++;
+                    this.validSubmissionsMap.put(contextId, "");
                 }
             }
         }

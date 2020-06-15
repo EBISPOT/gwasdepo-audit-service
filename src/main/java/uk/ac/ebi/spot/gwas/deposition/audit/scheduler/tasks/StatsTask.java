@@ -56,7 +56,8 @@ public class StatsTask {
                     userRepository,
                     submissionRepository,
                     publicationRepository,
-                    bodyOfWorkRepository).getDigestEntry();
+                    bodyOfWorkRepository,
+                    false).getDigestEntry();
             digestEntry = digestEntryRepository.insert(digestEntry);
             log.info("Digest entry created: {}", digestEntry.getId());
 
