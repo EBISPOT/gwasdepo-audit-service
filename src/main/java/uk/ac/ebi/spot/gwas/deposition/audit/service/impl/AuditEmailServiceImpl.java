@@ -9,12 +9,14 @@ import uk.ac.ebi.spot.gwas.deposition.audit.config.AuditEmailConfig;
 import uk.ac.ebi.spot.gwas.deposition.audit.constants.MailConstants;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.DigestEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.AuditEmailService;
+import uk.ac.ebi.spot.gwas.deposition.audit.util.EmailSubmissionObject;
 import uk.ac.ebi.spot.gwas.deposition.audit.util.StatsEmailBuilder;
 import uk.ac.ebi.spot.gwas.deposition.audit.util.SubmissionDigestCheck;
 import uk.ac.ebi.spot.gwas.deposition.messaging.email.EmailBuilder;
 import uk.ac.ebi.spot.gwas.deposition.messaging.email.EmailService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -40,6 +42,27 @@ public class AuditEmailServiceImpl implements AuditEmailService {
 
         log.info("Email service active: {}", emailService != null);
         log.info("Audit email active: {}", auditEmailConfig.isEmailActive());
+
+        log.info(" - # Created: {}", digestEntry.getNoSubmissions());
+        log.info(" - # Successful: {}", digestEntry.getNoValidSubmissions());
+        log.info(" - # Failed: {}", digestEntry.getNoFailedSubmissions());
+
+        List<EmailSubmissionObject> list = new SubmissionDigestCheck(digestEntry.getSubmissions()).getResult();
+        log.info(" - Submissions: {}", list.size());
+        for (EmailSubmissionObject emailSubmissionObject : list) {
+            log.info(" -- {} | {}", emailSubmissionObject.getContextId(), emailSubmissionObject.getTitle());
+        }
+        list = new SubmissionDigestCheck(digestEntry.getValidSubmissions()).getResult();
+        log.info(" - Valid: {}", list.size());
+        for (EmailSubmissionObject emailSubmissionObject : list) {
+            log.info(" -- {} | {}", emailSubmissionObject.getContextId(), emailSubmissionObject.getTitle());
+        }
+        list = new SubmissionDigestCheck(digestEntry.getFailedSubmissions()).getResult();
+        log.info(" - Failed: {}", list.size());
+        for (EmailSubmissionObject emailSubmissionObject : list) {
+            log.info(" -- {} | {}", emailSubmissionObject.getContextId(), emailSubmissionObject.getTitle());
+        }
+
 
         if (emailService != null && auditEmailConfig.isEmailActive()) {
             try {
