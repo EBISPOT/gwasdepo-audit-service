@@ -369,14 +369,14 @@
                         <div th:if="${VALIDATION_SUCCESSFUL} != 0">
                             <strong>Submissions validated successfully:</strong>
                             <ul th:each="VALID_SUBMISSION: ${VALID_SUBMISSIONS}">
-                                <li><span th:text="${VALID_SUBMISSION.provenanceType}"></span>: <span th:text="${VALID_SUBMISSION.contextId}"></span> (<span th:text="${SUBMISSION.title}"></span>; <span th:text="${VALID_SUBMISSION.firstAuthor}"></span>) - <span th:text="${VALID_SUBMISSION.userName}"></span></li>
+                                <li><span th:text="${VALID_SUBMISSION.provenanceType}"></span>: <span th:text="${VALID_SUBMISSION.contextId}"></span> (<span th:text="${VALID_SUBMISSION.title}"></span>; <span th:text="${VALID_SUBMISSION.firstAuthor}"></span>) - <span th:text="${VALID_SUBMISSION.userName}"></span></li>
                             </ul>
                         </div>
 
                         <div th:if="${VALIDATION_FAILED} != 0">
                             <strong>Submissions with failed validation:</strong>
                             <ul th:each="FAILED_SUBMISSION: ${FAILED_SUBMISSIONS}">
-                                <li><span th:text="${FAILED_SUBMISSION.provenanceType}"></span>: <span th:text="${FAILED_SUBMISSION.contextId}"></span> (<span th:text="${SUBMISSION.title}"></span>; <span th:text="${FAILED_SUBMISSION.firstAuthor}"></span>) - <span th:text="${FAILED_SUBMISSION.userName}"></span>. Error: <span th:text="${FAILED_SUBMISSION.error}"></span></li>
+                                <li><span th:text="${FAILED_SUBMISSION.provenanceType}"></span>: <span th:text="${FAILED_SUBMISSION.contextId}"></span> (<span th:text="${FAILED_SUBMISSION.title}"></span>; <span th:text="${FAILED_SUBMISSION.firstAuthor}"></span>) - <span th:text="${FAILED_SUBMISSION.userName}"></span>. Error: <span th:text="${FAILED_SUBMISSION.error}"></span></li>
                             </ul>
                         </div>
 
