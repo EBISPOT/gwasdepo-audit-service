@@ -43,27 +43,6 @@ public class AuditEmailServiceImpl implements AuditEmailService {
         log.info("Email service active: {}", emailService != null);
         log.info("Audit email active: {}", auditEmailConfig.isEmailActive());
 
-        log.info(" - # Created: {}", digestEntry.getNoSubmissions());
-        log.info(" - # Successful: {}", digestEntry.getNoValidSubmissions());
-        log.info(" - # Failed: {}", digestEntry.getNoFailedSubmissions());
-
-        List<EmailSubmissionObject> list = new SubmissionDigestCheck(digestEntry.getSubmissions()).getResult();
-        log.info(" - Submissions: {}", list.size());
-        for (EmailSubmissionObject emailSubmissionObject : list) {
-            log.info(" -- {} | {}", emailSubmissionObject.getContextId(), emailSubmissionObject.getTitle());
-        }
-        list = new SubmissionDigestCheck(digestEntry.getValidSubmissions()).getResult();
-        log.info(" - Valid: {}", list.size());
-        for (EmailSubmissionObject emailSubmissionObject : list) {
-            log.info(" -- {} | {}", emailSubmissionObject.getContextId(), emailSubmissionObject.getTitle());
-        }
-        list = new SubmissionDigestCheck(digestEntry.getFailedSubmissions()).getResult();
-        log.info(" - Failed: {}", list.size());
-        for (EmailSubmissionObject emailSubmissionObject : list) {
-            log.info(" -- {} | {}", emailSubmissionObject.getContextId(), emailSubmissionObject.getTitle());
-        }
-
-
         if (emailService != null && auditEmailConfig.isEmailActive()) {
             try {
                 EmailBuilder successBuilder = new StatsEmailBuilder(emailConfig.getRight());
