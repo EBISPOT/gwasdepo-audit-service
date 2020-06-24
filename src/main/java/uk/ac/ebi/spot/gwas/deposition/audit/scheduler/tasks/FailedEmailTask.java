@@ -30,7 +30,7 @@ public class FailedEmailTask {
         if (failedEmailRepository != null && emailService != null && auditEmailConfig.isEmailActive()) {
             List<FailedEmail> failedEmails = failedEmailRepository.findAll();
 
-            log.info("Found {} failed emails");
+            log.info("Found {} failed emails", failedEmails.size());
             for (FailedEmail failedEmail : failedEmails) {
                 log.info("Resending failed email: {}", failedEmail.getId());
                 emailService.resendFailedMessage(failedEmail);
