@@ -357,25 +357,14 @@
                             </ul>
                         </p>
 
-                        <div th:if="${SUBMISSIONS_CREATED} != 0">
-                            <strong>Submissions created:</strong>
-                            <ul th:each="SUBMISSION: ${SUBMISSIONS}">
-                                <li><span th:text="${SUBMISSION.provenanceType}"></span>: <span th:text="${SUBMISSION.contextId}"></span> (Author: <span th:text="${SUBMISSION.firstAuthor}"></span>) - User: <span th:text="${SUBMISSION.userName}"></span></li>
-                            </ul>
-                        </div>
-
-                        <div th:if="${VALIDATION_SUCCESSFUL} != 0">
-                            <strong>Submissions successful:</strong>
-                            <ul th:each="VALID_SUBMISSION: ${VALID_SUBMISSIONS}">
-                                <li><span th:text="${VALID_SUBMISSION.provenanceType}"></span>: <span th:text="${VALID_SUBMISSION.contextId}"></span> (Author: <span th:text="${VALID_SUBMISSION.firstAuthor}"></span>) - User: <span th:text="${VALID_SUBMISSION.userName}"></span></li>
-                            </ul>
-                        </div>
-
-                        <div th:if="${VALIDATION_FAILED} != 0">
-                            <strong>Submissions failed:</strong>
-                            <ul th:each="FAILED_SUBMISSION: ${FAILED_SUBMISSIONS}">
-                                <li><span th:text="${FAILED_SUBMISSION.provenanceType}"></span>: <span th:text="${FAILED_SUBMISSION.contextId}"></span> (Author: <span th:text="${FAILED_SUBMISSION.firstAuthor}"></span>) - User: <span th:text="${FAILED_SUBMISSION.userName}"></span></span></li>
-                            </ul>
+                        <div th:if="${USERS} != 0">
+                            <div th:each="USER: ${USERS}">
+                                <strong>User: <span th:text="${USER.userName}"></span> (<span th:text="${USER.userEmail}"></span>)</strong>
+                                <div th:each="SUBMISSION: ${SUBMISSIONS}">
+                                    <div th:if="${SUBMISSION.userId} == ${USER.userId}">&nbsp;&nbsp;&bull;&nbsp;&nbsp;<span th:text="${SUBMISSION.provenanceType}"></span>: <span th:text="${SUBMISSION.objectId}"></span> - <span th:text="${SUBMISSION.state}"></span> (<span th:text="${SUBMISSION.date}"></span>)</div>
+                                </div>
+                                <br/>
+                            </div>
                         </div>
 
                         <p>Best wishes,<br/>
