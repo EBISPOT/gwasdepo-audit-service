@@ -19,6 +19,6 @@ public class WeeklyStatsJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext context) {
-        applicationContext.getBean(WeeklyStatsTask.class).buildStats();
+        applicationContext.getBean(WeeklyStatsTask.class).buildStats(false);
     }
 }
