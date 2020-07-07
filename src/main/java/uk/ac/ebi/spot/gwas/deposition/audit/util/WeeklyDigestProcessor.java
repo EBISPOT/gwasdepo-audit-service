@@ -9,7 +9,10 @@ import uk.ac.ebi.spot.gwas.deposition.audit.constants.AuditObjectType;
 import uk.ac.ebi.spot.gwas.deposition.audit.constants.AuditOperationOutcome;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.AuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.WeeklyDigestEntry;
+import uk.ac.ebi.spot.gwas.deposition.audit.repository.PublicationRepository;
 import uk.ac.ebi.spot.gwas.deposition.audit.repository.UserRepository;
+import uk.ac.ebi.spot.gwas.deposition.constants.SubmissionProvenanceType;
+import uk.ac.ebi.spot.gwas.deposition.domain.Publication;
 import uk.ac.ebi.spot.gwas.deposition.domain.User;
 
 import java.util.*;
@@ -17,6 +20,8 @@ import java.util.*;
 public class WeeklyDigestProcessor {
 
     private UserRepository userRepository;
+
+    private PublicationRepository publicationRepository;
 
     private WeeklyDigestEntry weeklyDigestEntry;
 
@@ -31,8 +36,10 @@ public class WeeklyDigestProcessor {
     private Map<String, WeeklyEmailAuthorObject> users;
 
     public WeeklyDigestProcessor(List<AuditEntry> auditEntryList,
-                                 UserRepository userRepository) {
+                                 UserRepository userRepository,
+                                 PublicationRepository publicationRepository) {
         this.userRepository = userRepository;
+        this.publicationRepository = publicationRepository;
         this.submissions = new HashMap<>();
         this.users = new HashMap<>();
         this.noSubmissions = 0;
@@ -91,6 +98,12 @@ public class WeeklyDigestProcessor {
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 String contextId = auditEntry.getContext();
+                if (AuditMetadata.PROVENANCE_TYPE.name().equalsIgnoreCase(SubmissionProvenanceType.PUBLICATION.name())) {
+                    Optional<Publication> publicationOptional = publicationRepository.findById(contextId);
+                    if (publicationOptional.isPresent()) {
+                        contextId = publicationOptional.get().getPmid();
+                    }
+                }
                 if (!users.containsKey(user.getId())) {
                     users.put(user.getId(), new WeeklyEmailAuthorObject(user.getId(), user.getName(), user.getEmail()));
                 }
