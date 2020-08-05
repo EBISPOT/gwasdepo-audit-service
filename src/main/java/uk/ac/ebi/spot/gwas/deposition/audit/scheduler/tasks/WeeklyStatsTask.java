@@ -9,10 +9,7 @@ import uk.ac.ebi.spot.gwas.deposition.audit.config.AuditEmailConfig;
 import uk.ac.ebi.spot.gwas.deposition.audit.constants.MailConstants;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.AuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.domain.WeeklyDigestEntry;
-import uk.ac.ebi.spot.gwas.deposition.audit.repository.AuditEntryRepository;
-import uk.ac.ebi.spot.gwas.deposition.audit.repository.PublicationRepository;
-import uk.ac.ebi.spot.gwas.deposition.audit.repository.UserRepository;
-import uk.ac.ebi.spot.gwas.deposition.audit.repository.WeeklyDigestEntryRepository;
+import uk.ac.ebi.spot.gwas.deposition.audit.repository.*;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.AuditEmailService;
 import uk.ac.ebi.spot.gwas.deposition.audit.util.WeeklyDigestProcessor;
 
@@ -39,6 +36,9 @@ public class WeeklyStatsTask {
     private PublicationRepository publicationRepository;
 
     @Autowired
+    private BodyOfWorkRepository bodyOfWorkRepository;
+
+    @Autowired
     private AuditEmailConfig auditEmailConfig;
 
     public void buildStats(boolean isTest) {
@@ -54,7 +54,7 @@ public class WeeklyStatsTask {
         log.info("Found {} entries.", auditEntryList.size());
 
         WeeklyDigestEntry digestEntry = new WeeklyDigestProcessor(auditEntryList,
-                userRepository, publicationRepository).getWeeklyDigestEntry();
+                userRepository, publicationRepository, bodyOfWorkRepository, auditEmailConfig).getWeeklyDigestEntry();
         digestEntry = weeklyDigestEntryRepository.insert(digestEntry);
         log.info("Digest entry created: {}", digestEntry.getId());
 
