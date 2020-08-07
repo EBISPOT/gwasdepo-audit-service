@@ -29,6 +29,15 @@ public class AuditEmailConfig {
     @Value("${audit-emails.digest.to:#{NULL}}")
     private String digestTo;
 
+    @Value("${audit-emails.urls.base}")
+    private String baseURL;
+
+    @Value("${audit-emails.urls.prefixes.submission}")
+    private String prefixSubmission;
+
+    @Value("${audit-emails.urls.prefixes.body-of-work}")
+    private String prefixBodyOfWork;
+
     public boolean isEmailActive() {
         return emailActive;
     }
@@ -47,6 +56,18 @@ public class AuditEmailConfig {
 
     public String getWeeklyDigestSubject() {
         return weeklyDigestSubject;
+    }
+
+    public String getBaseURL() {
+        return baseURL;
+    }
+
+    public String getPrefixSubmission() {
+        return prefixSubmission;
+    }
+
+    public String getPrefixBodyOfWork() {
+        return prefixBodyOfWork;
     }
 
     public Pair<String, String> emailConfig(String frequency) {

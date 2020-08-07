@@ -23,6 +23,8 @@ audit-emails:
   active: true
   digest:
     to: jstewart@ebi.ac.uk
+  urls:
+    base: http://193.62.54.159
 
 email:
   enabled: true
