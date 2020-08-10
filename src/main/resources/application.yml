@@ -15,7 +15,7 @@ gwas-audit-service:
 audit-emails:
   active: false
   urls:
-    base: https://ebi.ac.uk
+    base: https://www.ebi.ac.uk
     prefixes:
       submission: /gwas/deposition/submission/
       body-of-work: /gwas/deposition/bodyofwork/
