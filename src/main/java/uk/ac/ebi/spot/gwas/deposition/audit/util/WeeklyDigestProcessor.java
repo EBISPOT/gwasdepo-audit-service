@@ -90,7 +90,7 @@ public class WeeklyDigestProcessor {
                 String pmid = auditEntry.getContext();
                 String firstAuthor = "N/A";
 
-                if (AuditMetadata.PROVENANCE_TYPE.name().equalsIgnoreCase(SubmissionProvenanceType.PUBLICATION.name())) {
+                if (auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()).equalsIgnoreCase(SubmissionProvenanceType.PUBLICATION.name())) {
                     Optional<Publication> publicationOptional = publicationRepository.findById(pmid);
                     if (publicationOptional.isPresent()) {
                         firstAuthor = publicationOptional.get().getFirstAuthor() != null ? publicationOptional.get().getFirstAuthor() : firstAuthor;
@@ -135,7 +135,7 @@ public class WeeklyDigestProcessor {
                 String gcpLink = null;
                 String firstAuthor = "N/A";
 
-                if (AuditMetadata.PROVENANCE_TYPE.name().equalsIgnoreCase(SubmissionProvenanceType.PUBLICATION.name())) {
+                if (auditEntry.getMetadata().get(AuditMetadata.PROVENANCE_TYPE.name()).equalsIgnoreCase(SubmissionProvenanceType.PUBLICATION.name())) {
                     Optional<Publication> publicationOptional = publicationRepository.findById(pmid);
                     if (publicationOptional.isPresent()) {
                         pmid = publicationOptional.get().getPmid();
