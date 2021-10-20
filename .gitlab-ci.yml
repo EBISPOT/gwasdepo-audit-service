@@ -7,6 +7,7 @@ stages:
   - docker
   - docker-release
   - deploy-sandbox
+  - deploy-sandbox-migration
   - deploy-fallback
   - deploy-live
 
@@ -63,6 +64,22 @@ deploy-audit-sandbox:
     name: sandbox
   only:
   - develop
+
+
+deploy-audit-sandbox-migration:
+  image: dtzar/helm-kubectl:2.13.1
+  stage: deploy-sandbox-migration
+  script:
+    - echo "Deploy to sandbox server"
+    - mkdir -p /root/.kube
+    - echo ${PLIVE_KUBECONFIG} | base64 -d > /root/.kube/config
+    - helm init
+    #- helm delete --purge gwas-audit-service-dev || true
+    - helm install --name gwas-audit-service-dev --set k8Namespace=gwas-dev,service.name=gwas-audit-service-dev,ingress.name=audit-ingress-dev,image.env.envName=sandbox-migration,image.volume.claimName=gwas-dev-depo-logs,image.repository=$AUDIT_REGISTRY_IMAGE,image.tag=$CI_COMMIT_SHA,image.env.secretsName=sandbox-secrets,image.env.secretsKey=db-backend ./k8chart/ --wait
+  environment:
+    name: sandbox-migration
+  only:
+    - audit#477-Sandbox-Migration
 
 deploy-fallback:
   image: dtzar/helm-kubectl:2.13.1
