@@ -58,7 +58,7 @@ public class MongoConfig {
     @EnableMongoRepositories(basePackages = {"uk.ac.ebi.spot.gwas.deposition.audit.repository",
             "uk.ac.ebi.spot.gwas.deposition.repository"})
     @EnableTransactionManagement
-    @Profile({"sandbox"})
+    @Profile({"sandbox","sandbox-migration"})
     public static class MongoConfigSandbox extends AbstractMongoConfiguration {
 
         @Autowired
@@ -83,6 +83,8 @@ public class MongoConfig {
             return new MongoClient(new MongoClientURI("mongodb://" + mongoUri));
         }
     }
+
+
 
     @Configuration
     @EnableMongoRepositories(basePackages = {"uk.ac.ebi.spot.gwas.deposition.audit.repository",
