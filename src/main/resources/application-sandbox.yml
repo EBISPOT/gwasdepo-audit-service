@@ -4,7 +4,8 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongo-0.mongo.default.svc.cluster.local,mongo-1.mongo.default.svc.cluster.local,mongo-2.mongo.default.svc.cluster.local:27017
+      #uri: mongo-0.mongo.default.svc.cluster.local,mongo-1.mongo.default.svc.cluster.local,mongo-2.mongo.default.svc.cluster.local:27017
+      uri: mongodb-hhvm-062.ebi.ac.uk:27017,mongodb-hxvm-063.ebi.ac.uk:27017/admin?replicaSet=gwasdepodevrs039
   mail:
     host: outgoing.ebi.ac.uk
     port: 587
@@ -30,8 +31,8 @@ email:
   enabled: true
 
 gwas-audit-service:
-  db: deposition-backend-sandbox
+  db: gwasdepo
 
 quartz:
   scheduler:
-    dbName: deposition-backend-sandbox
+    dbName: gwasdepo
