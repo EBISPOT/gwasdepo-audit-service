@@ -1,0 +1,54 @@
+package uk.ac.ebi.spot.gwas.deposition.audit.service.impl;
+
+import org.apache.el.stream.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import uk.ac.ebi.spot.gwas.deposition.audit.PublicationAuditEntryDto;
+import uk.ac.ebi.spot.gwas.deposition.audit.domain.PublicationAuditEntry;
+import uk.ac.ebi.spot.gwas.deposition.audit.repository.PublicationAuditEntryRepository;
+import uk.ac.ebi.spot.gwas.deposition.audit.repository.SubmissionRepository;
+import uk.ac.ebi.spot.gwas.deposition.audit.service.PublicationAuditEntryService;
+import uk.ac.ebi.spot.gwas.deposition.domain.Submission;
+
+@Service
+public class PublicationAuditEntryServiceImpl  implements PublicationAuditEntryService  {
+
+    @Autowired
+    PublicationAuditEntryRepository  publicationAuditEntryRepository;
+
+    @Autowired
+    SubmissionRepository submissionRepository;
+    @Override
+    public PublicationAuditEntry createPublicationAuditEntry(PublicationAuditEntry publicationAuditEntry) {
+        return publicationAuditEntryRepository.save(publicationAuditEntry);
+    }
+
+
+    public PublicationAuditEntry getAuditEntry(String auditEntryId) {
+      return   publicationAuditEntryRepository.findById(auditEntryId)
+                .orElse(null);
+
+    }
+
+
+   public  Page<PublicationAuditEntry> getPublicationAuditEntries(String pubId, Pageable pageable){
+      return publicationAuditEntryRepository.findByPublicationId(pubId, pageable);
+   }
+
+   public String getPublicationId(PublicationAuditEntryDto publicationAuditEntryDto) {
+        if(!publicationAuditEntryDto.getIsPublication()){
+        Submission submission = submissionRepository.findByIdAndArchived(publicationAuditEntryDto
+                    .getPublicationId(), false).orElse(null);
+        if(submission != null) {
+            return submission.getPublicationId();
+        }else {
+            return null;
+        }
+        }
+        return null;
+   }
+}
+
+
