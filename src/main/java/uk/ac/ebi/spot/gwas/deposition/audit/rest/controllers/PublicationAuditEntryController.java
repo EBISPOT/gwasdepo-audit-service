@@ -39,13 +39,6 @@ public class PublicationAuditEntryController {
         return publicationAuditEntryDtoAssembler.toResource(publicationAuditEntry);
     }
 
-    @PostMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED  )
-    public Resource<PublicationAuditEntryDto> createAuditEntry(@RequestBody PublicationAuditEntryDto publicationAuditEntryDto) {
-        PublicationAuditEntry publicationAuditEntry = publicationAuditEntryDtoAssembler.disassemble(publicationAuditEntryDto);
-        return publicationAuditEntryDtoAssembler.toResource(publicationAuditEntryService.createPublicationAuditEntry(publicationAuditEntry));
-    }
 
 
 

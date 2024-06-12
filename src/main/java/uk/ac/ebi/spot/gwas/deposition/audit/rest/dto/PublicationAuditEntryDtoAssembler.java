@@ -11,6 +11,8 @@ import uk.ac.ebi.spot.gwas.deposition.audit.domain.PublicationAuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.rest.controllers.PublicationAuditEntryController;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.PublicationAuditEntryService;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.UserService;
+import uk.ac.ebi.spot.gwas.deposition.domain.Provenance;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @Component
@@ -30,8 +32,10 @@ public class PublicationAuditEntryDtoAssembler extends ResourceSupport implement
                 .publicationId(auditEntry.getPublicationId())
                 .event(auditEntry.getEvent())
                 .eventDetails(auditEntry.getEventDetails())
-                .timestamp(auditEntry.getTimestamp())
-                .userDto(userDtoAssembler.assemble(userService.getUserDetails(auditEntry.getUserId())))
+                .provenanceDto(ProvenanceDtoAssembler.assemble(new Provenance(auditEntry.getTimestamp(),
+                                userService.findUserDetailsUsingEmail(auditEntry.getUserId()).getId()),
+                        userService.findUserDetailsUsingEmail(auditEntry.getUserId())
+                        ))
                 .build();
 
         Resource<PublicationAuditEntryDto> resource = new Resource<>(publicationAuditEntryDto);
@@ -42,11 +46,11 @@ public class PublicationAuditEntryDtoAssembler extends ResourceSupport implement
 
     public PublicationAuditEntry disassemble(PublicationAuditEntryDto publicationAuditEntryDto) {
         PublicationAuditEntry publicationAuditEntry = new PublicationAuditEntry();
-        publicationAuditEntry.setPublicationId(publicationAuditEntryDto.getIsPublication() ? publicationAuditEntryDto.getPublicationId() : publicationAuditEntryService.getPublicationId(publicationAuditEntryDto));
+        publicationAuditEntry.setPublicationId(publicationAuditEntryDto.getPublication() ? publicationAuditEntryDto.getPublicationId() : publicationAuditEntryService.getPublicationId(publicationAuditEntryDto));
         publicationAuditEntry.setEvent(publicationAuditEntryDto.getEvent());
         publicationAuditEntry.setEventDetails(publicationAuditEntryDto.getEventDetails());
-        publicationAuditEntry.setTimestamp(publicationAuditEntryDto.getTimestamp());
-        publicationAuditEntry.setUserId(publicationAuditEntryDto.getUserDto().getEmail());
+        publicationAuditEntry.setTimestamp(publicationAuditEntryDto.getProvenanceDto().getTimestamp());
+        publicationAuditEntry.setUserId(publicationAuditEntryDto.getProvenanceDto().getUser().getEmail());
         return publicationAuditEntry;
     }
 }

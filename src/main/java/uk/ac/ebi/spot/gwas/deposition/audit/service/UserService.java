@@ -6,5 +6,5 @@ public interface UserService {
 
     User getUserDetails(String userId);
 
-    User findUserDetails(String email);
+    User findUserDetailsUsingEmail(String email);
 }

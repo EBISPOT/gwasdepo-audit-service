@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public User findUserDetails(String email) {
+    public User findUserDetailsUsingEmail(String email) {
        return userRepository.findByEmailIgnoreCase(email).orElse(null);
     }
 }

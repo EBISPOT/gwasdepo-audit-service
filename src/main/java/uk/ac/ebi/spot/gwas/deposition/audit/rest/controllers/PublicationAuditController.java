@@ -43,7 +43,7 @@ public class PublicationAuditController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public PagedResources<PublicationAuditEntryDto> getAuditEntries(PagedResourcesAssembler assembler,
-                                                                    @RequestParam(value = AuditServiceConstants.PARAM_PUBID,
+                                                                    @PathVariable(value = AuditServiceConstants.PARAM_PUBID,
                                                                             required = false) String publicationId,
                                                                     @SortDefault(sort = "timestamp", direction = Sort.Direction.DESC)
                                                                     @PageableDefault(size = 10, page = 0) Pageable pageable) {
@@ -75,6 +75,8 @@ public class PublicationAuditController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED  )
     public Resource<PublicationAuditEntryDto> createAuditEntry(@PathVariable String publicationId, @RequestBody PublicationAuditEntryDto publicationAuditEntryDto) {
+        log.info("Inside createAuditEntry()");
+        log.info("The date in publicationAuditEntryDto is {}",publicationAuditEntryDto.getProvenanceDto().getTimestamp());
         PublicationAuditEntry publicationAuditEntry = publicationAuditEntryDtoAssembler.disassemble(publicationAuditEntryDto);
         return publicationAuditEntryDtoAssembler.toResource(publicationAuditEntryService.createPublicationAuditEntry(publicationAuditEntry));
     }
