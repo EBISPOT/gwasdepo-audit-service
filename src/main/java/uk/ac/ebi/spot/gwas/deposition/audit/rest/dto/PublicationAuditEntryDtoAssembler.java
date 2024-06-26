@@ -4,14 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.hateoas.ResourceSupport;
-import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.stereotype.Component;
 import uk.ac.ebi.spot.gwas.deposition.audit.PublicationAuditEntryDto;
-import uk.ac.ebi.spot.gwas.deposition.audit.domain.PublicationAuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.rest.controllers.PublicationAuditEntryController;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.PublicationAuditEntryService;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.UserService;
 import uk.ac.ebi.spot.gwas.deposition.domain.Provenance;
+import uk.ac.ebi.spot.gwas.deposition.domain.PublicationAuditEntry;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;

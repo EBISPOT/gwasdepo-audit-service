@@ -1,6 +1,5 @@
 package uk.ac.ebi.spot.gwas.deposition.audit.service.impl;
 
-import org.apache.el.stream.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uk.ac.ebi.spot.gwas.deposition.audit.PublicationAuditEntryDto;
-import uk.ac.ebi.spot.gwas.deposition.audit.domain.PublicationAuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.repository.PublicationAuditEntryRepository;
 import uk.ac.ebi.spot.gwas.deposition.audit.repository.SubmissionRepository;
 import uk.ac.ebi.spot.gwas.deposition.audit.rest.controllers.PublicationAuditController;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.PublicationAuditEntryService;
+import uk.ac.ebi.spot.gwas.deposition.domain.PublicationAuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.domain.Submission;
 
 @Service
@@ -36,10 +35,6 @@ public class PublicationAuditEntryServiceImpl  implements PublicationAuditEntryS
 
     }
 
-
-   public  Page<PublicationAuditEntry> getPublicationAuditEntries(String pubId, Pageable pageable){
-      return publicationAuditEntryRepository.findByPublicationId(pubId, pageable);
-   }
 
    public String getPublicationId(PublicationAuditEntryDto publicationAuditEntryDto) {
         if(!publicationAuditEntryDto.getPublication()){

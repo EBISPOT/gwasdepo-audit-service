@@ -16,10 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.spot.gwas.deposition.audit.PublicationAuditEntryDto;
 import uk.ac.ebi.spot.gwas.deposition.audit.constants.AuditServiceConstants;
-import uk.ac.ebi.spot.gwas.deposition.audit.domain.PublicationAuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.rest.dto.PublicationAuditEntryDtoAssembler;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.PublicationAuditEntryService;
 import uk.ac.ebi.spot.gwas.deposition.constants.GeneralCommon;
+import uk.ac.ebi.spot.gwas.deposition.domain.PublicationAuditEntry;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -36,36 +36,6 @@ public class PublicationAuditController {
     @Autowired
     PublicationAuditEntryDtoAssembler publicationAuditEntryDtoAssembler;
 
-    /**
-     * GET /v1/publications/{publicationId}/publication-audit-entries/{auditEntryId}
-     */
-    @GetMapping(value = "/{publicationId}/publication-audit-entries",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public PagedResources<PublicationAuditEntryDto> getAuditEntries(PagedResourcesAssembler assembler,
-                                                                    @PathVariable(value = AuditServiceConstants.PARAM_PUBID,
-                                                                            required = false) String publicationId,
-                                                                    @SortDefault(sort = "timestamp", direction = Sort.Direction.DESC)
-                                                                    @PageableDefault(size = 10, page = 0) Pageable pageable) {
-    Page<PublicationAuditEntry> publicationAuditEntries = publicationAuditEntryService.getPublicationAuditEntries(publicationId, pageable);
-    return assembler.toResource(publicationAuditEntries, publicationAuditEntryDtoAssembler,
-                linkTo(methodOn(PublicationAuditController.class).getAuditEntries(assembler, publicationId, pageable)).withSelfRel());
-
-    }
-
-
-    /**
-     * GET /v1/publications/{publicationId}/publication-audit-entries/{auditEntryId}
-     */
-    @GetMapping(value = "/{publicationId}/publication-audit-entries/{auditEntryId}",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public Resource<PublicationAuditEntryDto> getAuditEntry(@PathVariable String publicationId, @PathVariable String auditEntryId) {
-        log.info("Request to get audit entry: {}", auditEntryId);
-        PublicationAuditEntry publicationAuditEntry = publicationAuditEntryService.getAuditEntry(auditEntryId);
-        log.info("Returning entry: {}", publicationAuditEntry.getId());
-        return publicationAuditEntryDtoAssembler.toResource(publicationAuditEntry);
-    }
 
     /**
      * POST /v1/publications/{publicationId}/publication-audit-entries

@@ -9,10 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.spot.gwas.deposition.audit.PublicationAuditEntryDto;
 import uk.ac.ebi.spot.gwas.deposition.audit.constants.AuditServiceConstants;
-import uk.ac.ebi.spot.gwas.deposition.audit.domain.PublicationAuditEntry;
 import uk.ac.ebi.spot.gwas.deposition.audit.rest.dto.PublicationAuditEntryDtoAssembler;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.PublicationAuditEntryService;
 import uk.ac.ebi.spot.gwas.deposition.constants.GeneralCommon;
+import uk.ac.ebi.spot.gwas.deposition.domain.PublicationAuditEntry;
 
 @RestController
 @RequestMapping(value = GeneralCommon.API_V1 + AuditServiceConstants.API_PUBLICATION_AUDIT_ENTRIES)
