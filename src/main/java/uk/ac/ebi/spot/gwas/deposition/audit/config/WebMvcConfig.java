@@ -47,6 +47,7 @@ public class WebMvcConfig {
             registry.addMapping("/**")
                     .allowedOrigins("*")
                     .allowedMethods("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH")
+                    .allowCredentials(true)
                     .allowedHeaders("Origin", "Content-Type", "Accept");
         }
     }

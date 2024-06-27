@@ -36,3 +36,13 @@ gwas-audit-service:
 quartz:
   scheduler:
     dbName: gwasdepo
+
+
+rabbitmq:
+  queue-name: study_change_sandbox
+  exchange-name: study_change_exchange_sandbox
+  routing-key: study-ingest_sandbox
+  sumstats:
+    queue-name: metadata-yml-update-sandbox
+    exchange-name: metadata-yml-update-exchange-sandbox
+    routing-key: metadata-yml-update-route-sandbox
