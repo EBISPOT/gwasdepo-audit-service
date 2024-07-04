@@ -47,6 +47,7 @@ public class PublicationAuditController {
     public Resource<PublicationAuditEntryDto> createAuditEntry(@PathVariable String publicationId, @RequestBody PublicationAuditEntryDto publicationAuditEntryDto) {
         log.info("Inside createAuditEntry()");
         log.info("The date in publicationAuditEntryDto is {}",publicationAuditEntryDto.getProvenanceDto().getTimestamp());
+        log.info("The publication is submission or Pmid {}",publicationAuditEntryDto.getPublication());
         PublicationAuditEntry publicationAuditEntry = publicationAuditEntryDtoAssembler.disassemble(publicationAuditEntryDto);
         return publicationAuditEntryDtoAssembler.toResource(publicationAuditEntryService.createPublicationAuditEntry(publicationAuditEntry));
     }
