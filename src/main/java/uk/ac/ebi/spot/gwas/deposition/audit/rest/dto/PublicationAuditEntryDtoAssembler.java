@@ -6,6 +6,8 @@ import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.stereotype.Component;
 import uk.ac.ebi.spot.gwas.deposition.audit.PublicationAuditEntryDto;
+import uk.ac.ebi.spot.gwas.deposition.audit.PublicationAuditEventMap;
+import uk.ac.ebi.spot.gwas.deposition.audit.constants.PublicationEventType;
 import uk.ac.ebi.spot.gwas.deposition.audit.rest.controllers.PublicationAuditEntryController;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.PublicationAuditEntryService;
 import uk.ac.ebi.spot.gwas.deposition.audit.service.UserService;
@@ -24,12 +26,15 @@ public class PublicationAuditEntryDtoAssembler extends ResourceSupport implement
     UserDtoAssembler userDtoAssembler;
 
     @Autowired
+    PublicationAuditEventMap publicationAuditEventMap;
+
+    @Autowired
     PublicationAuditEntryService publicationAuditEntryService;
     @Override
     public Resource<PublicationAuditEntryDto> toResource(PublicationAuditEntry auditEntry) {
         PublicationAuditEntryDto publicationAuditEntryDto = PublicationAuditEntryDto.builder()
                 .publicationId(auditEntry.getPublicationId())
-                .event(auditEntry.getEvent())
+                .event(publicationAuditEventMap.getAuditEventMap().get(auditEntry.getEvent()))
                 .eventDetails(auditEntry.getEventDetails())
                 .provenanceDto(ProvenanceDtoAssembler.assemble(new Provenance(auditEntry.getTimestamp(),
                                 userService.findUserDetailsUsingEmail(auditEntry.getUserId()).getId()),
@@ -52,4 +57,6 @@ public class PublicationAuditEntryDtoAssembler extends ResourceSupport implement
         publicationAuditEntry.setUserId(publicationAuditEntryDto.getProvenanceDto().getUser().getEmail());
         return publicationAuditEntry;
     }
+
+
 }
