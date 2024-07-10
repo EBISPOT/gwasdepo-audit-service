@@ -6,7 +6,7 @@
 
     <groupId>uk.ac.ebi.spot.gwasdepo</groupId>
     <artifactId>gwasdepo-audit-service</artifactId>
-    <version>0.0.7-SNAPSHOT</version>
+    <version>0.0.6</version>
     <packaging>jar</packaging>
 
     <name>GWAS Deposition App Audit Service</name>
