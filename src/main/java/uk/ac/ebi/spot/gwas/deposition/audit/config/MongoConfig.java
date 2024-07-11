@@ -22,7 +22,7 @@ public class MongoConfig {
     @EnableMongoRepositories(basePackages = {"uk.ac.ebi.spot.gwas.deposition.audit.repository",
             "uk.ac.ebi.spot.gwas.deposition.repository"})
     @EnableTransactionManagement
-    @Profile({"dev", "test"})
+    @Profile({"dev", "test","local"})
     public static class MongoConfigDev extends AbstractMongoConfiguration {
 
         @Autowired
@@ -44,13 +44,22 @@ public class MongoConfig {
         @Override
         public MongoClient mongoClient() {
             String mongoUri = systemConfigProperties.getMongoUri();
-            String[] addresses = mongoUri.split(",");
-            List<ServerAddress> servers = new ArrayList<>();
-            for (String address : addresses) {
-                String[] split = address.trim().split(":");
-                servers.add(new ServerAddress(split[0].trim(), Integer.parseInt(split[1].trim())));
+            String dbUser = systemConfigProperties.getDbUser();
+            String dbPassword = systemConfigProperties.getDbPassword();
+            String credentials = "";
+            if (dbUser != null && dbPassword != null) {
+                dbUser = dbUser.trim();
+                dbPassword = dbPassword.trim();
+                if (!dbUser.equalsIgnoreCase("") &&
+                        !dbPassword.equalsIgnoreCase("")) {
+                    credentials = dbUser + ":" + dbPassword + "@";
+                }
             }
-            return new MongoClient(servers);
+
+            //return new MongoClient(new MongoClientURI("mongodb://" + mongoUri));
+            return new MongoClient(new MongoClientURI("mongodb://" + credentials + mongoUri));
+            //String mongoUri = systemConfigProperties.getMongoUri();
+            //return new MongoClient(new MongoClientURI("mongodb://" + mongoUri));
         }
     }
 
@@ -58,7 +67,7 @@ public class MongoConfig {
     @EnableMongoRepositories(basePackages = {"uk.ac.ebi.spot.gwas.deposition.audit.repository",
             "uk.ac.ebi.spot.gwas.deposition.repository"})
     @EnableTransactionManagement
-    @Profile({"sandbox"})
+    @Profile({"sandbox","sandbox-migration"})
     public static class MongoConfigSandbox extends AbstractMongoConfiguration {
 
         @Autowired
@@ -80,7 +89,20 @@ public class MongoConfig {
         @Override
         public MongoClient mongoClient() {
             String mongoUri = systemConfigProperties.getMongoUri();
-            return new MongoClient(new MongoClientURI("mongodb://" + mongoUri));
+            String dbUser = systemConfigProperties.getDbUser();
+            String dbPassword = systemConfigProperties.getDbPassword();
+            String credentials = "";
+            if (dbUser != null && dbPassword != null) {
+                dbUser = dbUser.trim();
+                dbPassword = dbPassword.trim();
+                if (!dbUser.equalsIgnoreCase("") &&
+                        !dbPassword.equalsIgnoreCase("")) {
+                    credentials = dbUser + ":" + dbPassword + "@";
+                }
+            }
+
+            return new MongoClient(new MongoClientURI("mongodb://" + credentials + mongoUri));
+            // return new MongoClient(new MongoClientURI("mongodb://" + mongoUri));
         }
     }
 

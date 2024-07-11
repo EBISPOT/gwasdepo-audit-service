@@ -51,7 +51,7 @@ email:
 
 spring:
   profiles:
-    active: dev
+    active: local
 
 comms:
   messaging:
